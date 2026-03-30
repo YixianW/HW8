@@ -46,8 +46,65 @@ def safe_save_pickle(path, data):
     try:
         with open(path, "wb") as file:
             pickle.dump(data, file)
+        return True
     except OSError:
         print(f"Error: Could not save data to {path}.")
+        return False
+
+
+def sanitize_preferences(preferences):
+    """Normalize nested preference data and discard malformed pieces."""
+    if not isinstance(preferences, dict):
+        return {}
+
+    sanitized = {}
+    for username, pref in preferences.items():
+        if not isinstance(username, str):
+            continue
+
+        liked = {}
+        disliked = {}
+
+        if isinstance(pref, dict):
+            raw_liked = pref.get("liked", {})
+            raw_disliked = pref.get("disliked", {})
+
+            if isinstance(raw_liked, dict):
+                liked = {
+                    cat: count
+                    for cat, count in raw_liked.items()
+                    if isinstance(cat, str) and isinstance(count, int) and count >= 0
+                }
+            if isinstance(raw_disliked, dict):
+                disliked = {
+                    cat: count
+                    for cat, count in raw_disliked.items()
+                    if isinstance(cat, str) and isinstance(count, int) and count >= 0
+                }
+
+        sanitized[username] = {"liked": liked, "disliked": disliked}
+
+    return sanitized
+
+
+def sanitize_scores(scores):
+    """Normalize score history so malformed per-user data cannot crash app flows."""
+    if not isinstance(scores, dict):
+        return {}
+
+    sanitized = {}
+    for username, history in scores.items():
+        if not isinstance(username, str):
+            continue
+
+        if not isinstance(history, list):
+            sanitized[username] = []
+            continue
+
+        clean_history = [item for item in history if isinstance(item, dict)]
+        sanitized[username] = clean_history
+
+    return sanitized
 
 
 def hash_password(password, salt=None):
@@ -113,6 +170,8 @@ def load_questions():
             continue
         if not isinstance(item["options"], list) or len(item["options"]) != 4:
             continue
+        if item["answer"] not in item["options"]:
+            continue
         valid_questions.append(item)
 
     if not valid_questions:
@@ -150,8 +209,11 @@ def create_account(users):
         break
 
     users[username] = hash_password(password)
-    safe_save_pickle(USERS_FILE, users)
-    print("Account created successfully.")
+    if safe_save_pickle(USERS_FILE, users):
+        print("Account created successfully.")
+    else:
+        users.pop(username, None)
+        print("Account could not be created due to a save error.")
 
 
 def login(users):
@@ -185,8 +247,15 @@ def choose_category():
 
 
 def get_weighted_questions(question_pool, user_prefs, quiz_size=5):
+    if not isinstance(user_prefs, dict):
+        user_prefs = {}
+
     liked = user_prefs.get("liked", {})
     disliked = user_prefs.get("disliked", {})
+    if not isinstance(liked, dict):
+        liked = {}
+    if not isinstance(disliked, dict):
+        disliked = {}
 
     weighted_pool = []
     for question in question_pool:
@@ -243,8 +312,10 @@ def apply_feedback(preferences, username, category, feedback):
         preferences[username] = {"liked": {}, "disliked": {}}
 
     user_pref = preferences[username]
-    user_pref.setdefault("liked", {})
-    user_pref.setdefault("disliked", {})
+    if not isinstance(user_pref.get("liked"), dict):
+        user_pref["liked"] = {}
+    if not isinstance(user_pref.get("disliked"), dict):
+        user_pref["disliked"] = {}
 
     if feedback == "like":
         user_pref["liked"][category] = user_pref["liked"].get(category, 0) + 1
@@ -289,9 +360,14 @@ def start_quiz(username, questions, scores, preferences):
         "total": len(selected_questions),
     }
 
-    scores.setdefault(username, []).append(result)
-    safe_save_pickle(SCORES_FILE, scores)
-    safe_save_pickle(PREFERENCES_FILE, preferences)
+    if not isinstance(scores.get(username), list):
+        scores[username] = []
+    scores[username].append(result)
+
+    score_saved = safe_save_pickle(SCORES_FILE, scores)
+    pref_saved = safe_save_pickle(PREFERENCES_FILE, preferences)
+    if not score_saved or not pref_saved:
+        print("Warning: Some quiz data could not be saved.")
 
     print(f"\nQuiz complete. Final score: {score}/{len(selected_questions)}")
 
@@ -299,11 +375,16 @@ def start_quiz(username, questions, scores, preferences):
 def show_history(username, scores):
     print("\n=== Score History ===")
     history = scores.get(username, [])
-    if not history:
+    if not isinstance(history, list):
         print("No quiz history found yet.")
         return
 
-    for idx, item in enumerate(history, start=1):
+    valid_history = [item for item in history if isinstance(item, dict)]
+    if not valid_history:
+        print("No quiz history found yet.")
+        return
+
+    for idx, item in enumerate(valid_history, start=1):
         print(
             f"{idx}. {item.get('timestamp', 'Unknown time')} | "
             f"{item.get('mode', 'unknown')} | "
@@ -339,6 +420,10 @@ def main():
     users = safe_load_pickle(USERS_FILE, default={}, expected_type=dict)
     scores = safe_load_pickle(SCORES_FILE, default={}, expected_type=dict)
     preferences = safe_load_pickle(PREFERENCES_FILE, default={}, expected_type=dict)
+
+    scores = sanitize_scores(scores)
+    preferences = sanitize_preferences(preferences)
+
     ensure_storage_files(users, scores, preferences)
 
     while True:
