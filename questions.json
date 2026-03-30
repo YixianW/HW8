@@ -1,0 +1,164 @@
+{
+  "questions": [
+    {
+      "question": "What is the capital of Japan?",
+      "type": "multiple_choice",
+      "options": ["Seoul", "Tokyo", "Beijing", "Bangkok"],
+      "answer": "Tokyo",
+      "category": "Capitals",
+      "difficulty": "easy"
+    },
+    {
+      "question": "What is the capital of Italy?",
+      "type": "multiple_choice",
+      "options": ["Venice", "Rome", "Milan", "Florence"],
+      "answer": "Rome",
+      "category": "Capitals",
+      "difficulty": "easy"
+    },
+    {
+      "question": "What is the capital of Thailand?",
+      "type": "multiple_choice",
+      "options": ["Phuket", "Chiang Mai", "Bangkok", "Pattaya"],
+      "answer": "Bangkok",
+      "category": "Capitals",
+      "difficulty": "easy"
+    },
+    {
+      "question": "What is the capital of Canada?",
+      "type": "multiple_choice",
+      "options": ["Toronto", "Ottawa", "Vancouver", "Montreal"],
+      "answer": "Ottawa",
+      "category": "Capitals",
+      "difficulty": "medium"
+    },
+    {
+      "question": "What is the capital of Australia?",
+      "type": "multiple_choice",
+      "options": ["Sydney", "Melbourne", "Canberra", "Perth"],
+      "answer": "Canberra",
+      "category": "Capitals",
+      "difficulty": "medium"
+    },
+    {
+      "question": "In which city is the Eiffel Tower located?",
+      "type": "multiple_choice",
+      "options": ["Rome", "Paris", "Madrid", "Vienna"],
+      "answer": "Paris",
+      "category": "Landmarks",
+      "difficulty": "easy"
+    },
+    {
+      "question": "The Colosseum is located in which country?",
+      "type": "multiple_choice",
+      "options": ["Greece", "Spain", "Italy", "Turkey"],
+      "answer": "Italy",
+      "category": "Landmarks",
+      "difficulty": "easy"
+    },
+    {
+      "question": "Machu Picchu is in which country?",
+      "type": "multiple_choice",
+      "options": ["Peru", "Mexico", "Brazil", "Chile"],
+      "answer": "Peru",
+      "category": "Landmarks",
+      "difficulty": "medium"
+    },
+    {
+      "question": "The Great Wall is most associated with which country?",
+      "type": "multiple_choice",
+      "options": ["Japan", "China", "Mongolia", "South Korea"],
+      "answer": "China",
+      "category": "Landmarks",
+      "difficulty": "easy"
+    },
+    {
+      "question": "The Statue of Liberty is in which city?",
+      "type": "multiple_choice",
+      "options": ["Washington, D.C.", "Boston", "New York City", "Philadelphia"],
+      "answer": "New York City",
+      "category": "Landmarks",
+      "difficulty": "easy"
+    },
+    {
+      "question": "Sushi is most closely associated with which country?",
+      "type": "multiple_choice",
+      "options": ["China", "Japan", "Thailand", "Vietnam"],
+      "answer": "Japan",
+      "category": "World Foods",
+      "difficulty": "easy"
+    },
+    {
+      "question": "Tacos are a popular food from which country?",
+      "type": "multiple_choice",
+      "options": ["Mexico", "Spain", "Argentina", "Brazil"],
+      "answer": "Mexico",
+      "category": "World Foods",
+      "difficulty": "easy"
+    },
+    {
+      "question": "Which country is especially famous for pizza and pasta?",
+      "type": "multiple_choice",
+      "options": ["France", "Italy", "Portugal", "Greece"],
+      "answer": "Italy",
+      "category": "World Foods",
+      "difficulty": "easy"
+    },
+    {
+      "question": "Pho is a traditional dish from which country?",
+      "type": "multiple_choice",
+      "options": ["Vietnam", "Malaysia", "Indonesia", "Cambodia"],
+      "answer": "Vietnam",
+      "category": "World Foods",
+      "difficulty": "medium"
+    },
+    {
+      "question": "Croissants are strongly associated with which country?",
+      "type": "multiple_choice",
+      "options": ["Belgium", "France", "Switzerland", "Austria"],
+      "answer": "France",
+      "category": "World Foods",
+      "difficulty": "easy"
+    },
+    {
+      "question": "Diwali is a major festival celebrated in which country?",
+      "type": "multiple_choice",
+      "options": ["India", "Egypt", "Mexico", "Japan"],
+      "answer": "India",
+      "category": "Culture & Traditions",
+      "difficulty": "medium"
+    },
+    {
+      "question": "Hanbok is a traditional type of clothing from which country?",
+      "type": "multiple_choice",
+      "options": ["China", "South Korea", "Thailand", "Mongolia"],
+      "answer": "South Korea",
+      "category": "Culture & Traditions",
+      "difficulty": "medium"
+    },
+    {
+      "question": "The samba is a music and dance style strongly associated with which country?",
+      "type": "multiple_choice",
+      "options": ["Brazil", "Portugal", "Argentina", "Colombia"],
+      "answer": "Brazil",
+      "category": "Culture & Traditions",
+      "difficulty": "medium"
+    },
+    {
+      "question": "Oktoberfest is a famous festival that began in which country?",
+      "type": "multiple_choice",
+      "options": ["Austria", "Germany", "Switzerland", "Netherlands"],
+      "answer": "Germany",
+      "category": "Culture & Traditions",
+      "difficulty": "medium"
+    },
+    {
+      "question": "The kimono is a traditional garment from which country?",
+      "type": "multiple_choice",
+      "options": ["Japan", "China", "Vietnam", "Laos"],
+      "answer": "Japan",
+      "category": "Culture & Traditions",
+      "difficulty": "easy"
+    }
+  ]
+}
